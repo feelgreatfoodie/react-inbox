@@ -2,22 +2,16 @@ import React, { Component } from 'react'
 import '../index.css'
 
 class ToolBar extends Component {
-  constructor(props) {
-    super(props)
-
-    const unreadMessages = props.messages.filter(e => e.read === false).length
-
-    this.state = {
-      unreadMessages: unreadMessages
-    }
-  }
-
   render() {
+
+    const unreadMessages = this.props.messages.filter(e => e.read === false).length
+    const buttonActive = this.props.messages.filter(e => e.selected === true).length > 0 ? '' : 'disabled'
+    console.log('hola', buttonActive)
     return (
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
-            <span className="badge badge">{this.state.unreadMessages}</span>
+            <span className="badge badge">{unreadMessages}</span>
             unread messages
           </p>
 
@@ -25,15 +19,15 @@ class ToolBar extends Component {
             <i className="fa fa-plus"></i>
           </a>
 
-          <button className="btn btn-default disabled">
+          <button className={`btn btn-default ${buttonActive}`}>
             <i className="fa fa-check-square-o"></i>
           </button>
 
-          <button className="btn btn-default disabled">
+          <button className={`btn btn-default ${buttonActive}`}>
             Mark As Read
           </button>
 
-          <button className="btn btn-default disabled">
+          <button className={`btn btn-default ${buttonActive}`}>
             Mark As Unread
           </button>
 

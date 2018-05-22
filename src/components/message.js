@@ -15,7 +15,7 @@ class Message extends Component {
             <div className="col-xs-2">
               <input type="checkbox"
                 onChange={this.props.handleSelected.bind(null, this.props.message.id)}
-                checked={this.props.message.selected ? 'checked' : null}
+                checked={this.props.message.selected ? 'checked' : ''}
               />
             </div>
             <div className="col-xs-2">
