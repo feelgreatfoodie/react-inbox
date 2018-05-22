@@ -1,18 +1,22 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import MessageList from './components/message_list'
+import React, { Component } from 'react'
+import ToolBar from './components/toolbar'
+import './index.css'
+import messageData from './messageData.json'
+import ComposeForm from './components/compose_form'
 
 class App extends Component {
+  constructor (props) {
+    super(props)
+    this.state = { messages: messageData }
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <ToolBar messages={this.state.messages}/>
+        <ComposeForm />
+        <MessageList messages={this.state.messages}/>
       </div>
     );
   }
