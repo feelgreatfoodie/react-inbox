@@ -6,13 +6,10 @@ class ToolBar extends Component {
     super(props)
 
     const unreadMessages = props.messages.filter(e => e.read === false).length
+
     this.state = {
       unreadMessages: unreadMessages
     }
-  }
-
-  countUnreadMessages = () => {
-
   }
 
   render() {
