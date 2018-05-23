@@ -3,10 +3,18 @@ import '../index.css'
 
 class ToolBar extends Component {
   render() {
+    const { messages } = this.props
+    const unreadMessages = messages.filter(e => e.read === false).length
+    const selectedMessages = messages.filter(e => e.selected === true).length
+    let boxType, buttonActive
 
-    const unreadMessages = this.props.messages.filter(e => e.read === false).length
-    const buttonActive = this.props.messages.filter(e => e.selected === true).length > 0 ? '' : 'disabled'
-    console.log('hola', buttonActive)
+    selectedMessages > 0 ?
+      selectedMessages === messages.length ?
+        boxType = 'fa-check-square-o' :
+        boxType = 'fa-minus-square-o' :
+        (boxType = 'fa-square-o', buttonActive = 'disabled')
+
+
     return (
       <div className="row toolbar">
         <div className="col-md-12">
@@ -19,33 +27,34 @@ class ToolBar extends Component {
             <i className="fa fa-plus"></i>
           </a>
 
-          <button className={`btn btn-default ${buttonActive}`}>
-            <i className="fa fa-check-square-o"></i>
+          <button className="btn btn-default">
+            <i className={`fa ${boxType}`}
+              onClick={this.props.handleSelectAll}></i>
           </button>
 
-          <button className={`btn btn-default ${buttonActive}`}>
+          <button className="btn btn-default" disabled={buttonActive}>
             Mark As Read
           </button>
 
-          <button className={`btn btn-default ${buttonActive}`}>
+          <button className="btn btn-default" disabled={buttonActive}>
             Mark As Unread
           </button>
 
-          <select className="form-control label-select">
+          <select className="form-control label-select" disabled={buttonActive}>
             <option>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <select className="form-control label-select">
+          <select className="form-control label-select" disabled={buttonActive}>
             <option>Remove label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <button className="btn btn-defalut">
+          <button className="btn btn-default" disabled={buttonActive}>
             <i className="fa fa-trash-o"></i>
           </button>
 

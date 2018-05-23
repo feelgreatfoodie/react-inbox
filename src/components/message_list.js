@@ -3,9 +3,9 @@ import Message from './message'
 
 const MessageList = (props) => (
   <div className="messages">
-    { props.messages.map((message, idx) => (
+    { props.messages.map((message, i) => (
       <Message
-        key={idx}
+        key={i}
         message={message}
         handleSelected={props.handleSelected}
         handleStarred={props.handleStarred}
