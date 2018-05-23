@@ -1,9 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import '../index.css'
 
-class ToolBar extends Component {
-  render() {
-    const { messages } = this.props
+const ToolBar = ({ messages, handleSelectAll, handleToolbarButton }) => {
     const unreadMessages = messages.filter(e => e.read === false).length
     const selectedMessages = messages.filter(e => e.selected === true).length
     let boxType, buttonActive
@@ -19,7 +17,7 @@ class ToolBar extends Component {
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
-            <span className="badge badge">{unreadMessages}</span>
+            <span className="badge badge">{ unreadMessages }</span>
             unread messages
           </p>
 
@@ -29,32 +27,32 @@ class ToolBar extends Component {
 
           <button className="btn btn-default">
             <i className={`fa ${boxType}`}
-              onClick={this.props.handleSelectAll}></i>
+              onClick={ handleSelectAll }></i>
           </button>
 
-          <button className="btn btn-default" disabled={buttonActive}>
+          <button className="btn btn-default" onClick={ handleToolbarButton.bind(null, 'read') } disabled={ buttonActive }>
             Mark As Read
           </button>
 
-          <button className="btn btn-default" disabled={buttonActive}>
+          <button className="btn btn-default" onClick={ handleToolbarButton.bind(null, 'unread') } disabled={ buttonActive } >
             Mark As Unread
           </button>
 
-          <select className="form-control label-select" disabled={buttonActive}>
+          <select className="form-control label-select" disabled={ buttonActive }>
             <option>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <select className="form-control label-select" disabled={buttonActive}>
+          <select className="form-control label-select" disabled={ buttonActive }>
             <option>Remove label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <button className="btn btn-default" disabled={buttonActive}>
+          <button className="btn btn-default" disabled={ buttonActive }>
             <i className="fa fa-trash-o"></i>
           </button>
 
@@ -62,6 +60,5 @@ class ToolBar extends Component {
       </div>
     )
   }
-}
 
 export default ToolBar

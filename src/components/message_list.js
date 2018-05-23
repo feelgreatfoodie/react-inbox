@@ -1,14 +1,13 @@
-import React from 'react'
 import Message from './message'
+import React from 'react'
 
-const MessageList = (props) => (
+const MessageList = ({ messages, handleClick }) => (
   <div className="messages">
-    { props.messages.map((message, i) => (
+    { messages.map(message => (
       <Message
-        key={i}
-        message={message}
-        handleSelected={props.handleSelected}
-        handleStarred={props.handleStarred}
+        key={ message.id }
+        message={ message }
+        handleClick={ handleClick }
        />
     ))}
   </div>

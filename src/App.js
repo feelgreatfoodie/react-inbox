@@ -5,20 +5,19 @@ import React, { Component } from 'react'
 import ToolBar from './components/toolbar'
 import './index.css'
 
-
 class App extends Component {
   constructor (props) {
     super(props)
     this.state = { messages }
   }
 
-  handleSelected = id => {
+  handleClick = (id, quality) => {
     const x = this.state.messages
-    const messageDelta = x.filter(e => e.id === id)[0]
 
-    messageDelta.selected ? messageDelta.selected = false : messageDelta.selected = true
-    const newMessages = x.slice(0,id-1).concat(messageDelta, x.slice(id))
-    console.log('hola', newMessages)
+    const messageDelta = x.filter(e => e.id === id)[0]
+    messageDelta[quality] ? messageDelta[quality] = false : messageDelta[quality] = true
+
+    const newMessages = [...x.slice(0,id-1), messageDelta, ...x.slice(id)]
     this.setState( messages: newMessages)
   }
 
@@ -34,26 +33,28 @@ class App extends Component {
     this.setState(messages: newMessages)
   }
 
-  handleStarred = id => {
+  handleToolbarButton = (readStatus) => {
     const x = this.state.messages
-    const messageDelta = x.filter(e => e.id === id)[0]
-    messageDelta.starred ? messageDelta.starred = false : messageDelta.starred = true
-    const newMessages = x.slice(0,id-1).concat(messageDelta, x.slice(id))
+    const newMessages = [
+      ...x,
+      x.filter(e => e.selected && readStatus === 'unread' ? e.read = false : e.read = true)
+    ]
 
-    this.setState( messages: newMessages)
+    this.setState(messages: newMessages)
+
   }
 
   render() {
     return (
       <div className="App">
         <ToolBar
-          messages={this.state.messages}
-          handleSelectAll={this.handleSelectAll} />
+          messages={ this.state.messages }
+          handleSelectAll={ this.handleSelectAll }
+          handleToolbarButton={ this.handleToolbarButton } />
         <ComposeForm />
         <MessageList
-        messages={this.state.messages}
-        handleSelected={this.handleSelected}
-        handleStarred={this.handleStarred}/>
+        messages={ this.state.messages }
+        handleClick={ this.handleClick } />
       </div>
     )
   }
