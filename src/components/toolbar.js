@@ -1,7 +1,7 @@
 import React from 'react'
 import '../index.css'
 
-const ToolBar = ({ messages, handleDelete, handleSelectAll, handleReadUnread }) => {
+const ToolBar = ({ messages, handleDelete, handleLabels, handleSelectAll, handleReadUnread }) => {
     const unreadMessages = messages.filter(e => e.read === false).length
     const selectedMessages = messages.filter(e => e.selected === true).length
     let boxType, buttonActive
@@ -38,15 +38,15 @@ const ToolBar = ({ messages, handleDelete, handleSelectAll, handleReadUnread }) 
             Mark As Unread
           </button>
 
-          <select className="form-control label-select" disabled={ buttonActive }>
-            <option>Apply label</option>
+          <select className="form-control label-select" onChange={(event) => handleLabels(messages, event.target.value, 'apply')} disabled={ buttonActive }>
+            <option value="">Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <select className="form-control label-select" disabled={ buttonActive }>
-            <option>Remove label</option>
+          <select className="form-control label-select" onChange={(event) => handleLabels(messages, event.target.value, 'remove')} disabled={ buttonActive }>
+            <option value="">Remove label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>

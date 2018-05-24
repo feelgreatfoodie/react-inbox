@@ -27,6 +27,16 @@ class App extends Component {
     this.setState( {messages: newMessages} )
   }
 
+  handleLabels = (messages, value, action) => {
+    let newMessages
+    // if action is apply, add label, otherwise remove label
+    action === 'apply' && value.length > 0 ?
+     newMessages = messages.map(e => e.selected && !e.labels.includes(value) ? e.labels.push(value) : null):
+     newMessages = messages.map(e => e.selected && e.labels.includes(value) ? e.labels = e.labels.filter(l => l !== value) : null)
+
+    this.setState(messages: newMessages)
+  }
+
   handleSelectAll = () => {
     const x = this.state.messages
     let newMessages = []
@@ -54,6 +64,7 @@ class App extends Component {
         <ToolBar
           messages={ this.state.messages }
           handleDelete={ this.handleDelete }
+          handleLabels={ this.handleLabels }
           handleSelectAll={ this.handleSelectAll }
           handleReadUnread={ this.handleReadUnread } />
         <ComposeForm />
