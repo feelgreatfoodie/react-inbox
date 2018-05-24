@@ -18,7 +18,7 @@ const ToolBar = ({ messages, handleDelete, handleLabels, handleSelectAll, handle
         <div className="col-md-12">
           <p className="pull-right">
             <span className="badge badge">{ unreadMessages }</span>
-            unread messages
+            { unreadMessages === 1 ? 'unread message' : 'unread messages' }
           </p>
 
           <a className="btn btn-danger">
