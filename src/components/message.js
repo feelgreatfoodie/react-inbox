@@ -20,9 +20,9 @@ const Message = ({ message, handleClick }) => (
         </div>
         <div className="col-xs-11">
           { message.labels.map(e => <span className="label label-warning">{ e }</span> )}
-          <a href="#">
+          <span>
             { message.subject }
-          </a>
+          </span>
         </div>
       </div>
     )

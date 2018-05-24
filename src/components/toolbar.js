@@ -1,7 +1,7 @@
 import React from 'react'
 import '../index.css'
 
-const ToolBar = ({ messages, handleSelectAll, handleToolbarButton }) => {
+const ToolBar = ({ messages, handleDelete, handleSelectAll, handleReadUnread }) => {
     const unreadMessages = messages.filter(e => e.read === false).length
     const selectedMessages = messages.filter(e => e.selected === true).length
     let boxType, buttonActive
@@ -30,11 +30,11 @@ const ToolBar = ({ messages, handleSelectAll, handleToolbarButton }) => {
               onClick={ handleSelectAll }></i>
           </button>
 
-          <button className="btn btn-default" onClick={ handleToolbarButton.bind(null, 'read') } disabled={ buttonActive }>
+          <button className="btn btn-default" onClick={ handleReadUnread.bind(null, messages, 'read') } disabled={ buttonActive }>
             Mark As Read
           </button>
 
-          <button className="btn btn-default" onClick={ handleToolbarButton.bind(null, 'unread') } disabled={ buttonActive } >
+          <button className="btn btn-default" onClick={ handleReadUnread.bind(null, messages, 'unread') } disabled={ buttonActive } >
             Mark As Unread
           </button>
 
@@ -52,7 +52,7 @@ const ToolBar = ({ messages, handleSelectAll, handleToolbarButton }) => {
             <option value="gschool">gschool</option>
           </select>
 
-          <button className="btn btn-default" disabled={ buttonActive }>
+          <button className="btn btn-default" onClick={ handleDelete.bind(null, messages) } disabled={ buttonActive }>
             <i className="fa fa-trash-o"></i>
           </button>
 

@@ -12,6 +12,7 @@ class App extends Component {
   }
 
   handleClick = (id, quality) => {
+    // quality variable will refer to either selected or starred
     const x = this.state.messages
 
     const messageDelta = x.filter(e => e.id === id)[0]
@@ -19,6 +20,11 @@ class App extends Component {
 
     const newMessages = [...x.slice(0,id-1), messageDelta, ...x.slice(id)]
     this.setState( messages: newMessages)
+  }
+
+  handleDelete = (messages) => {
+    const newMessages = messages.filter(e => !e.selected)
+    this.setState( {messages: newMessages} )
   }
 
   handleSelectAll = () => {
@@ -33,15 +39,13 @@ class App extends Component {
     this.setState(messages: newMessages)
   }
 
-  handleToolbarButton = (readStatus) => {
-    const x = this.state.messages
-    const newMessages = [
-      ...x,
-      x.filter(e => e.selected && readStatus === 'unread' ? e.read = false : e.read = true)
-    ]
-
+  handleReadUnread = (messages, readStatus) => {
+    // variable readStatus will be 'read' or 'unread'
+    let newMessages
+    readStatus === 'unread' ?
+      newMessages = messages.map(e => e.selected ? e.read = false : null) :
+      newMessages = messages.map(e => e.selected ? e.read = true : null)
     this.setState(messages: newMessages)
-
   }
 
   render() {
@@ -49,8 +53,9 @@ class App extends Component {
       <div className="App">
         <ToolBar
           messages={ this.state.messages }
+          handleDelete={ this.handleDelete }
           handleSelectAll={ this.handleSelectAll }
-          handleToolbarButton={ this.handleToolbarButton } />
+          handleReadUnread={ this.handleReadUnread } />
         <ComposeForm />
         <MessageList
         messages={ this.state.messages }

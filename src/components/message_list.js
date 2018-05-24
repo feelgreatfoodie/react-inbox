@@ -5,7 +5,7 @@ const MessageList = ({ messages, handleClick }) => (
   <div className="messages">
     { messages.map(message => (
       <Message
-        key={ message.id }
+        // key={ message.id }
         message={ message }
         handleClick={ handleClick }
        />
