@@ -1,16 +1,16 @@
 import React from 'react'
 import '../index.css'
 
-const ToolBar = ({ messages, handleDelete, handleLabels, handleSelectAll, handleReadUnread }) => {
-    const unreadMessages = messages.filter(e => e.read === false).length
-    const selectedMessages = messages.filter(e => e.selected === true).length
+const ToolBar = ({ handleDelete, handleLabels, handleSelectAll, handleReadUnread, messages }) => {
+    const selectedMessages = messages.filter(e => e.selected).length
+    const unreadMessages = messages.filter(e => !e.read).length
     let boxType, buttonActive
 
     selectedMessages > 0 ?
       selectedMessages === messages.length ?
         boxType = 'fa-check-square-o' :
         boxType = 'fa-minus-square-o' :
-        (boxType = 'fa-square-o', buttonActive = 'disabled')
+      (boxType = 'fa-square-o', buttonActive = 'disabled')
 
 
     return (

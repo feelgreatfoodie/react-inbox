@@ -1,7 +1,7 @@
 import React from 'react'
 import '../index.css'
 
-const Message = ({ message, handleClick }) => (
+const Message = ({ handleClick, message }) => (
       <div
         className={`row message ${ message.selected ? 'selected' : '' } ${ message.read ? 'read': 'unread' }`}>
         <div className="col-xs-1">
@@ -19,7 +19,8 @@ const Message = ({ message, handleClick }) => (
           </div>
         </div>
         <div className="col-xs-11">
-          { message.labels.map(e => <span className="label label-warning">{ e }</span> )}
+          { message.labels ? message.labels.map((e, i) => <span key={i} className="label label-warning">{ e }</span> ): '' }
+
           <span>
             { message.subject }
           </span>
