@@ -7,27 +7,12 @@ import './index.css'
 
 class App extends Component {
 
-  state = { messages: [] }
+  state = { messages: [], hidden: 'hidden' }
 
   componentDidMount = async () => {
     const response = await fetch('http://localhost:8082/api/messages')
     const json = await response.json()
     this.setState({messages: json._embedded.messages})
-    console.log('initial state', this.state.messages)
-
-  }
-
-//experimental section
-  patchMessages = async (patchMessages) => {
-    console.log('bueno', patchMessages)
-    await fetch('http://localhost:8082/api/messages', {
-      method: 'PATCH',
-      body: JSON.stringify(patchMessages),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }
-    })
   }
 
   handleClick = (id, quality) => {
@@ -74,21 +59,8 @@ class App extends Component {
     this.setState(messages: newMessages)
   }
 
-  handleSelectAll = () => {
-    const x = this.state.messages
-    let newMessages
-
-    const selectedMessages = x.filter(e => e.selected === true).length
-    selectedMessages < x.length ?
-      newMessages = x.map(e => ({...e, selected: true})) :
-      newMessages = x.map(e => ({...e, selected: false}))
-
-    this.setState({messages: newMessages})
-  }
-
   handleReadUnread = (messages, readStatus) => {
     // variable readStatus will be 'read' or 'unread'
-    console.log('messages', messages, 'readStatus', readStatus)
     let newMessages
     readStatus === 'unread' ?
       newMessages = messages.map(e => e.selected ? ({...e, read: false}) : e) :
@@ -102,6 +74,46 @@ class App extends Component {
     this.setState({messages: newMessages})
   }
 
+  handleSelectAll = () => {
+    const x = this.state.messages
+    let newMessages
+
+    const selectedMessages = x.filter(e => e.selected === true).length
+    selectedMessages < x.length ?
+      newMessages = x.map(e => ({...e, selected: true})) :
+      newMessages = x.map(e => ({...e, selected: false}))
+
+    this.setState({messages: newMessages})
+  }
+
+  patchMessages = async (messagesToPatch) => {
+    await fetch('http://localhost:8082/api/messages', {
+      method: 'PATCH',
+      body: JSON.stringify(messagesToPatch),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+  }
+
+  postMessage = async (messageToPost) => {
+    await fetch('http://localhost:8082/api/messages', {
+      method: 'POST',
+      body: JSON.stringify(messageToPost),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+    this.setState({
+      hidden: 'hidden',
+      messages: [...this.state.messages, messageToPost]
+    })
+  }
+
+  showComposeForm = () => this.setState({hidden: ''})
+
   render() {
     return (
       <div className="App">
@@ -110,8 +122,11 @@ class App extends Component {
           handleDelete={ this.handleDelete }
           handleLabels={ this.handleLabels }
           handleSelectAll={ this.handleSelectAll }
-          handleReadUnread={ this.handleReadUnread } />
-        <ComposeForm />
+          handleReadUnread={ this.handleReadUnread }
+          showComposeForm={ this.showComposeForm } />
+        <ComposeForm
+          postMessage={ this.postMessage }
+          hidden={ this.state.hidden }/>
         <MessageList
         messages={ this.state.messages }
         handleClick={ this.handleClick } />

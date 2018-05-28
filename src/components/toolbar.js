@@ -1,7 +1,7 @@
 import React from 'react'
 import '../index.css'
 
-const ToolBar = ({ handleDelete, handleLabels, handleSelectAll, handleReadUnread, messages }) => {
+const ToolBar = ({ handleDelete, handleLabels, handleSelectAll, handleReadUnread, messages, showComposeForm }) => {
     const selectedMessages = messages.filter(e => e.selected).length
     const unreadMessages = messages.filter(e => !e.read).length
     let boxType, buttonActive
@@ -22,7 +22,8 @@ const ToolBar = ({ handleDelete, handleLabels, handleSelectAll, handleReadUnread
           </p>
 
           <a className="btn btn-danger">
-            <i className="fa fa-plus"></i>
+            <i className="fa fa-plus"
+              onClick={ showComposeForm }></i>
           </a>
 
           <button className="btn btn-default">
